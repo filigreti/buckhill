@@ -1,23 +1,13 @@
 import axios from "axios";
 
-let API_URL = "https://godscaremissions.herokuapp.com/api/v1";
-
-// request interceptor
-// request interceptor
-// instance.interceptors.request.use(
-//   (config, reqAuth) => {
-//     // do somethong here
-//     return config;
-//   },
-//   error => {}
-// );
+let API_URL = "https://pet-shop.buckhill.com.hr/api/v1";
 
 class Api {
   static async get(url, requireAuth = false) {
     try {
       let config = {
         headers: {
-          Authorization: `Token ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       };
       let response = requireAuth
@@ -33,7 +23,7 @@ class Api {
     try {
       let config = {
         headers: {
-          Authorization: `Token ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       };
       let response = requireAuth
@@ -41,7 +31,6 @@ class Api {
         : await axios.post(API_URL + url, payload);
       return response;
     } catch (error) {
-      console.log(error.response);
       return error.response;
     }
   }
@@ -50,7 +39,7 @@ class Api {
     try {
       let config = {
         headers: {
-          Authorization: `Token ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       };
       let response = requireAuth
@@ -66,7 +55,7 @@ class Api {
     try {
       let config = {
         headers: {
-          Authorization: `Token ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       };
       let response = requireAuth
@@ -75,6 +64,18 @@ class Api {
       return response;
     } catch (error) {
       return error.response;
+    }
+  }
+
+  static async blob(url) {
+    try {
+      let config = {
+        responseType: "blob",
+      };
+      let response = await axios.get(API_URL + url, config);
+      return response;
+    } catch (error) {
+      return error;
     }
   }
 }

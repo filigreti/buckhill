@@ -1,27 +1,68 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "User",
+    component: () => import("../layouts/User.vue"),
+    redirect: {
+      name: "Products",
+    },
+    children: [
+      {
+        path: "products",
+        name: "Products",
+        component: () => import("../views/user/Products.vue"),
+      },
+      {
+        path: "category/:category/:id",
+        name: "Category",
+        component: () => import("../views/user/Category.vue"),
+      },
+      {
+        path: "product-page/:id",
+        name: "ProductPage",
+        component: () => import("../views/user/Products.vue"),
+      },
+    ],
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/admin",
+    name: "Admin",
+    redirect: {
+      name: "customersAdmin",
+    },
+    component: () => import("../layouts/Admin.vue"),
+    children: [
+      {
+        path: "tickets",
+        name: "TicketsAdmin",
+        component: () => import("../views/admin/Tickets.vue"),
+      },
+      {
+        path: "shipment-locator",
+        name: "ShipmentLocatorAdmin",
+        component: () => import("../views/admin/Locator.vue"),
+      },
+      {
+        path: "customers",
+        name: "customersAdmin",
+        component: () => import("../views/admin/Customers.vue"),
+      },
+      {
+        path: "products",
+        name: "ProductsAdmin",
+        component: () => import("../views/admin/Products.vue"),
+      },
+    ],
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
