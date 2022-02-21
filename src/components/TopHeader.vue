@@ -46,32 +46,30 @@
           <v-btn class="weight mr-3" large outlined dark>
             <v-icon dark left> mdi-cart </v-icon>CART (0)
           </v-btn>
+          <v-btn
+            @click="dialog = true"
+            v-if="!getSignedInStatus"
+            class="weight"
+            large
+            outlined
+            dark
+          >
+            Login
+          </v-btn>
           <div class="mr-10" v-if="getSignedInStatus">
-            <v-btn class="weight mr-5" large outlined dark> Logout </v-btn>
-            <v-avatar
-              style="text-transform: uppercase"
-              color="white black--text "
-              size="42"
-            >
-              {{ initials }}</v-avatar
-            >
+            <v-btn @click="logoutUser" class="weight mr-5" large outlined dark>
+              Logout
+            </v-btn>
+            <avatar
+              @click.native="userProfileDialog = true"
+              class="cursor-pointer"
+            />
+            <v-dialog v-model="userProfileDialog" max-width="850">
+              <div class="pt-8 pb-12 white px-16 black--text">user setting</div>
+            </v-dialog>
           </div>
 
           <v-dialog v-model="dialog" max-width="480">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                v-if="!getSignedInStatus"
-                v-bind="attrs"
-                v-on="on"
-                class="weight"
-                large
-                outlined
-                dark
-              >
-                Login
-              </v-btn>
-            </template>
-
             <div class="pt-8 pb-12 white px-16 black--text">
               <router-link to="/">
                 <v-img
@@ -103,11 +101,13 @@
 import Login from "./Login.vue";
 import Register from "./Register.vue";
 import { mapGetters } from "vuex";
+import Avatar from "./Avatar.vue";
 
 export default {
-  components: { Login, Register },
+  components: { Login, Register, Avatar },
   data: () => ({
     dialog: false,
+    userProfileDialog: false,
     type: "login",
     items: [
       {
@@ -128,14 +128,6 @@ export default {
   }),
   computed: {
     ...mapGetters("auth", ["getSignedInStatus", "getUserData"]),
-    initials() {
-      const fullName =
-        this.getUserData.first_name + " " + this.getUserData.last_name;
-      return fullName
-        .split(" ")
-        .map((n) => n[0])
-        .join("");
-    },
   },
   watch: {
     dialog(val) {
@@ -144,9 +136,18 @@ export default {
       }
     },
   },
-  mounted() {
-    const fullName = this.console.log(this.initials, "jj");
+  methods: {
+    async logoutUser() {
+      const response = await this.$store.dispatch("auth/logout");
+      console.log(response);
+      if (response.success === 1) {
+        this.$root.vtoast.show({
+          message: `Logged out successfully`,
+        });
+      }
+    },
   },
+  mounted() {},
 };
 </script>
 

@@ -31,6 +31,7 @@
         class="mt-n1 ml-1"
         label="Remember me"
         :value="true"
+        v-model="checkbox"
       ></v-checkbox>
       <v-btn
         @click="loginUser"
@@ -62,6 +63,7 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      checkbox: true,
       email: "",
       password: "",
       passwordRules: [

@@ -1,7 +1,6 @@
 import Api from "../../config/Api";
 import { handlePromise } from "../../plugins/promisehandler";
 import { serialize } from "../../plugins/serialise";
-import Vue from "vue";
 
 const getDefaultState = () => {
   return {
@@ -15,6 +14,13 @@ const state = getDefaultState();
 const getters = {
   getSignedInStatus: (state) => state.isSignedOn,
   getUserData: (state) => state.userData,
+  getUserInitials: (state) => {
+    const fullName = state.userData.first_name + " " + state.userData.last_name;
+    return fullName
+      .split(" ")
+      .map((n) => n[0])
+      .join("");
+  },
 };
 
 const mutations = {
@@ -24,6 +30,9 @@ const mutations = {
       state[keys[i]] = keys[i] === type ? data : state[keys[i]];
     }
     return state;
+  },
+  resetState(state) {
+    Object.assign(state, getDefaultState());
   },
 };
 
@@ -38,7 +47,6 @@ const actions = {
     let userData;
 
     if (response.status === 200) {
-      console.log(response, "luuui");
       localStorage.setItem("token", response.data.data.token);
       userData = await dispatch("getUserData");
       response.data.data.userData = userData;
@@ -88,6 +96,17 @@ const actions = {
       data: true,
     });
 
+    return response || error;
+  },
+
+  async logout({ commit }) {
+    const url = `/user/logout`;
+    const serializeUrl = serialize({ url });
+    const [response, error] = await handlePromise(Api.get(serializeUrl));
+    if (response.success === 1) {
+      localStorage.removeItem("token");
+      commit("resetState");
+    }
     return response || error;
   },
 };

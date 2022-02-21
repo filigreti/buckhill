@@ -20,7 +20,7 @@ export default {
       message: "",
       color: "success",
       icon: "mdi-check",
-      timer: 3000,
+      timer: 5000,
     };
   },
   methods: {
