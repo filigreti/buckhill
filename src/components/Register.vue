@@ -135,8 +135,12 @@ export default {
       }
       if (response.status === 200) {
         this.$root.vtoast.show({ message: "User created succesfully" });
+        await this.$store.dispatch("auth/login", {
+          email: this.email,
+          password: this.password,
+        });
+        this.$emit("close");
       }
-      console.log(response, "validate");
     },
   },
 };

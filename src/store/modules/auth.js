@@ -1,19 +1,24 @@
 import Api from "../../config/Api";
 import { handlePromise } from "../../plugins/promisehandler";
 import { serialize } from "../../plugins/serialise";
+import Vue from "vue";
 
 const getDefaultState = () => {
   return {
-    loading: false,
+    isSignedOn: false,
+    userData: {},
   };
 };
 
 const state = getDefaultState();
 
-const getters = {};
+const getters = {
+  getSignedInStatus: (state) => state.isSignedOn,
+  getUserData: (state) => state.userData,
+};
 
 const mutations = {
-  updateState(state, { type, data }) {
+  updateAuthState(state, { type, data }) {
     const keys = Object.keys(state);
     for (let i = 0; i < keys.length; i++) {
       state[keys[i]] = keys[i] === type ? data : state[keys[i]];
@@ -30,7 +35,13 @@ const actions = {
       Api.post(serializeUrl, { email, password })
     );
 
-    if (response) {
+    let userData;
+
+    if (response.status === 200) {
+      console.log(response, "luuui");
+      localStorage.setItem("token", response.data.data.token);
+      userData = await dispatch("getUserData");
+      response.data.data.userData = userData;
     }
 
     return response || error;
@@ -60,6 +71,22 @@ const actions = {
         phone_number,
       })
     );
+
+    return response || error;
+  },
+
+  async getUserData({ commit }) {
+    const url = `/user`;
+    const serializeUrl = serialize({ url });
+    const [response, error] = await handlePromise(Api.get(serializeUrl, true));
+    commit("updateAuthState", {
+      type: "userData",
+      data: response.data,
+    });
+    commit("updateAuthState", {
+      type: "isSignedOn",
+      data: true,
+    });
 
     return response || error;
   },

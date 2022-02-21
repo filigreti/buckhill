@@ -7,7 +7,7 @@ class Api {
     try {
       let config = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
       let response = requireAuth
@@ -23,7 +23,7 @@ class Api {
     try {
       let config = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
       let response = requireAuth
@@ -39,7 +39,7 @@ class Api {
     try {
       let config = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
       let response = requireAuth
@@ -55,7 +55,7 @@ class Api {
     try {
       let config = {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
       let response = requireAuth

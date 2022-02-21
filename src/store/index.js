@@ -13,7 +13,7 @@ export default new Vuex.Store({
   },
   plugins: [
     createPersistedState({
-      paths: ["global.static"],
+      paths: ["global.static", "auth.isSignedOn", "auth.userData"],
     }),
   ],
 });

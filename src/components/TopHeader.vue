@@ -42,13 +42,25 @@
             </v-list-item>
           </v-list>
         </v-col>
-        <v-col lg="3" class="d-flex justify-center">
+        <v-col lg="3" class="d-flex justify-center align-center">
           <v-btn class="weight mr-3" large outlined dark>
             <v-icon dark left> mdi-cart </v-icon>CART (0)
           </v-btn>
+          <div class="mr-10" v-if="getSignedInStatus">
+            <v-btn class="weight mr-5" large outlined dark> Logout </v-btn>
+            <v-avatar
+              style="text-transform: uppercase"
+              color="white black--text "
+              size="42"
+            >
+              {{ initials }}</v-avatar
+            >
+          </div>
+
           <v-dialog v-model="dialog" max-width="480">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
+                v-if="!getSignedInStatus"
                 v-bind="attrs"
                 v-on="on"
                 class="weight"
@@ -69,8 +81,16 @@
                   height="68"
                 />
               </router-link>
-              <login @toggle="type = $event" v-if="type === 'login'" />
-              <register @toggle="type = $event" v-else />
+              <login
+                @close="dialog = false"
+                @toggle="type = $event"
+                v-if="type === 'login'"
+              />
+              <register
+                @toggle="type = $event"
+                @close="dialog = false"
+                v-else
+              />
             </div>
           </v-dialog>
         </v-col>
@@ -82,6 +102,7 @@
 <script>
 import Login from "./Login.vue";
 import Register from "./Register.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: { Login, Register },
@@ -105,12 +126,26 @@ export default {
       },
     ],
   }),
+  computed: {
+    ...mapGetters("auth", ["getSignedInStatus", "getUserData"]),
+    initials() {
+      const fullName =
+        this.getUserData.first_name + " " + this.getUserData.last_name;
+      return fullName
+        .split(" ")
+        .map((n) => n[0])
+        .join("");
+    },
+  },
   watch: {
     dialog(val) {
       if (!val) {
         this.type = "login";
       }
     },
+  },
+  mounted() {
+    const fullName = this.console.log(this.initials, "jj");
   },
 };
 </script>

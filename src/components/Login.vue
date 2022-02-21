@@ -30,7 +30,7 @@
       <v-checkbox
         class="mt-n1 ml-1"
         label="Remember me"
-        :value="false"
+        :value="true"
       ></v-checkbox>
       <v-btn
         @click="loginUser"
@@ -83,8 +83,21 @@ export default {
         email: this.email,
         password: this.password,
       });
-      if (response.status === 422) {
-        this.$root.vtoast.error({ message: response.data.error });
+      if (response.data.success === 0) {
+        if (response.data.errors.length) {
+          Object.values(response.data.errors).forEach((data) => {
+            this.$root.vtoast.error({ message: data[0] });
+          });
+        } else {
+          this.$root.vtoast.error({ message: response.data.error });
+        }
+      }
+      if (response.data.success === 1) {
+        this.$root.vtoast.show({
+          message: `Welcome Back, ${response.data.data.userData.data.first_name}`,
+        });
+
+        this.$emit("close");
       }
       console.log(response, "validate");
     },
