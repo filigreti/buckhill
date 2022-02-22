@@ -106,17 +106,6 @@
         <div class="prod-desc">
           {{ getProductDetails.description }}
         </div>
-        <!-- <v-row class="d-flex align-center mt-16">
-          <v-col cols="8">
-            <div class="" v-if="getProductDetails.image">
-              <div>
-           
-              </div>
-         
-            </div>
-          </v-col>
-          <v-col cols="4"> </v-col>
-        </v-row> -->
       </v-col>
     </v-row>
   </v-container>
@@ -128,6 +117,7 @@ export default {
   data() {
     return {
       number: 1,
+
       items: [
         {
           text: "Homepage",
@@ -166,9 +156,9 @@ export default {
   },
   methods: {
     addToCart() {
-      let { uuid, price, image, title } = this.getProductDetails;
+      let { uuid, price, title, metadata } = this.getProductDetails;
       const payload = {
-        [uuid]: { price, image, title, qty: this.number },
+        [uuid]: { price, image: metadata.image, title, qty: this.number },
       };
       this.$store.commit("cart/updateState", {
         type: "cart",

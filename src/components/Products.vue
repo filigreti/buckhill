@@ -56,10 +56,11 @@ export default {
         params: { id: this.product.uuid },
       });
     },
+
     addToCartFunc() {
-      let { uuid, price, image, title } = this.product;
+      let { uuid, price, title, metadata } = this.product;
       const payload = {
-        [uuid]: { price, image, title, qty: 1 },
+        [uuid]: { price, image: metadata.image, title, qty: 1 },
       };
       this.$store.commit("cart/updateState", {
         type: "cart",

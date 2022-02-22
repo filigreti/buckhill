@@ -1,6 +1,7 @@
 import Api from "../../config/Api";
 import { handlePromise } from "../../plugins/promisehandler";
 import { serialize } from "../../plugins/serialise";
+import Vue from "vue";
 
 const getDefaultState = () => {
   return {
@@ -24,6 +25,9 @@ const mutations = {
   },
   resetState(state) {
     Object.assign(state, getDefaultState());
+  },
+  deleteFromCart(state, payload) {
+    Vue.delete(state.cart, payload);
   },
 };
 
