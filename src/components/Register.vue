@@ -125,8 +125,8 @@ export default {
         email: this.email,
         password: this.password,
         password_confirmation: this.password_confirmation,
-        address: "Lagos, Nigeria",
-        phone_number: "08120854426",
+        address: "N/A",
+        phone_number: "N/A",
       });
       if (response.data.success === 0) {
         Object.values(response.data.errors).forEach((data) => {

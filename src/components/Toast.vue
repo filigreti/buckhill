@@ -5,6 +5,8 @@
     v-model="showSnackbar"
     bottom
     right
+    tile
+    height="50"
   >
     <v-icon left>{{ icon }}</v-icon
     >{{ message }}
@@ -18,7 +20,7 @@ export default {
     return {
       showSnackbar: false,
       message: "",
-      color: "success",
+      color: "primary",
       icon: "mdi-check",
       timer: 5000,
     };
@@ -26,15 +28,15 @@ export default {
   methods: {
     show(data) {
       this.message = data.message || 'missing "message".';
-      this.color = data.color || "success";
-      this.timer = data.timer || 3000;
+      this.color = data.color || "primary";
+      this.timer = data.timer || 5000;
       this.icon = data.icon || "mdi-check";
       this.showSnackbar = true;
     },
     error(data) {
       this.message = data.message || 'missing "message".';
       this.color = data.color || "red";
-      this.timer = data.timer || 3000;
+      this.timer = data.timer || 5000;
       this.icon = data.icon || "mdi-alert-circle-outline";
       this.showSnackbar = true;
     },

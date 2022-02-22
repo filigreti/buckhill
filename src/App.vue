@@ -85,6 +85,9 @@ export default {
 .full-height {
   height: calc(100vh - 4rem - 130px) !important;
 }
+.full-height-cart {
+  height: calc(100vh - 4rem) !important;
+}
 .cursor-pointer {
   cursor: pointer !important;
 }

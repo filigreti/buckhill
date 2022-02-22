@@ -1,7 +1,7 @@
 <template>
   <main>
     <v-hover v-slot="{ hover }">
-      <v-card :elevation="hover ? 1 : 0" class="card-area">
+      <v-card @click="productPage" :elevation="hover ? 1 : 0" class="card-area">
         <div>
           <v-img contain class="product-image" :src="product.image" />
         </div>
@@ -12,11 +12,14 @@
         <div class="product-price">{{ product.price }} kn</div>
         <v-btn
           v-if="addToCart"
+          :disabled="getCart[product.uuid] ? true : false"
           class="weight primary mt-3 cart-button"
           outlined
           dark
+          @click.stop="addToCartFunc"
         >
-          <v-icon dark left> mdi-cart </v-icon> ADD TO CART
+          <v-icon dark left> mdi-cart </v-icon>
+          ADD TO CART
         </v-btn>
       </v-card>
     </v-hover>
@@ -24,6 +27,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   props: {
     product: {
@@ -32,6 +36,38 @@ export default {
     addToCart: {
       type: Boolean,
       default: false,
+    },
+    route: {
+      type: Object,
+    },
+  },
+  computed: {
+    ...mapGetters("global", ["getProductDetails"]),
+    ...mapGetters("cart", ["getCart"]),
+  },
+  methods: {
+    productPage() {
+      this.$store.commit("global/updateState", {
+        type: "productDetail",
+        data: { ...this.product },
+      });
+      this.$router.push({
+        name: "ProductPage",
+        params: { id: this.product.uuid },
+      });
+    },
+    addToCartFunc() {
+      let { uuid, price, image, title } = this.product;
+      const payload = {
+        [uuid]: { price, image, title, qty: 1 },
+      };
+      this.$store.commit("cart/updateState", {
+        type: "cart",
+        data: {
+          ...this.getCart,
+          ...payload,
+        },
+      });
     },
   },
 };

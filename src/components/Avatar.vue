@@ -1,7 +1,7 @@
 <template>
   <v-avatar
     style="text-transform: uppercase"
-    color="white black--text "
+    :class="`${color} black--text`"
     :size="size"
   >
     {{ getUserInitials }}</v-avatar
@@ -16,6 +16,10 @@ export default {
     size: {
       type: Number || String,
       default: 42,
+    },
+    color: {
+      type: String,
+      default: "white",
     },
   },
   computed: {

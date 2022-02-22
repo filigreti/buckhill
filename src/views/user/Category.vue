@@ -119,7 +119,6 @@ export default {
         },
         {
           disabled: false,
-          href: "breadcrumbs_link_2",
         },
       ],
     };
@@ -152,8 +151,6 @@ export default {
         { params: this.params }
       );
       this.loading = false;
-      console.log(response, "uuus");
-
       if (response && response.length) {
         this.products = response;
         this.items[3].text = this.capitalizeFirstLetter(
@@ -167,8 +164,6 @@ export default {
   },
   async mounted() {
     this.params.category = this.$route.params.id;
-    console.log(this.params.category, "loki");
-
     await this.getProducts();
   },
 };

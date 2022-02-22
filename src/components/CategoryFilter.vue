@@ -24,7 +24,7 @@
                 <div>
                   {{ child.title | truncate(20, "...") }}
                 </div>
-                <div class="number">({{ child.products.length }})</div>
+                <div class="number">({{ child.products.total }})</div>
               </div>
             </v-list-item-title>
           </v-list-item-content>
@@ -60,7 +60,7 @@
                 <div>
                   {{ child.title }}
                 </div>
-                <div class="number">({{ child.products.length }})</div>
+                <div class="number">({{ child.products.total }})</div>
               </div>
             </v-list-item-title>
           </v-list-item-content>

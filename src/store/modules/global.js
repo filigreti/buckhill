@@ -15,6 +15,7 @@ const getDefaultState = () => {
       desc: false,
     },
     loading: false,
+    productDetail: {},
   };
 };
 
@@ -37,6 +38,7 @@ const getters = {
   getLoading: (state) => state.loading,
   getCategories: (state) => state.categories,
   getStatic: (state) => state.static,
+  getProductDetails: (state) => state.productDetail,
 };
 
 const mutations = {
@@ -100,7 +102,7 @@ const actions = {
       Api.get(serializeUrl, payload)
     );
     commit("setLoading", false);
-    const formatedResponse = await Promise.all(
+    let formatedResponse = await Promise.all(
       response.data.map(async (items) => {
         return {
           ...items,
@@ -108,6 +110,7 @@ const actions = {
         };
       })
     );
+
     return formatedResponse || error;
   },
 
@@ -126,6 +129,7 @@ const actions = {
           };
         })
       );
+      console.log(formatedResponse, "frame");
       commit("updateState", {
         type: "blogs",
         data: formatedResponse,
@@ -206,6 +210,32 @@ const actions = {
     return response || error;
   },
 
+  async getSpecificData({ commit, dispatch, state }, payload) {
+    commit("setLoading", true);
+    const url = `/products`;
+    const serializeUrl = serialize({
+      url,
+      filters: state.globalFilters,
+      body: payload.params || {},
+    });
+    const [response, error] = await handlePromise(
+      Api.get(serializeUrl, payload)
+    );
+    commit("setLoading", false);
+    let formatedResponse = await Promise.all(
+      response.data.map(async (items) => {
+        return {
+          ...items,
+          image: await dispatch("urlToBase64", { id: items.metadata.image }),
+        };
+      })
+    );
+
+    console.log({ ...response, data: formatedResponse }, "ruggge");
+
+    return { ...response, ...formatedResponse } || error;
+  },
+
   async getAllCategoriesAndBrands({ commit, dispatch }) {
     const urlOne = `/categories`;
     const urlTwo = `/brands`;
@@ -220,7 +250,7 @@ const actions = {
       firstResponse.data.map(async (items) => {
         return {
           ...items,
-          products: await dispatch("getProductsByCategory", {
+          products: await dispatch("getSpecificData", {
             params: { category: items.uuid },
           }),
         };
@@ -230,7 +260,7 @@ const actions = {
       secondResponse.data.map(async (items) => {
         return {
           ...items,
-          products: await dispatch("getProductsByCategory", {
+          products: await dispatch("getSpecificData", {
             params: { brand: items.uuid },
           }),
         };

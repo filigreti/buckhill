@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "User",
+
     component: () => import("../layouts/User.vue"),
     redirect: {
       name: "Products",
@@ -25,13 +25,37 @@ const routes = [
       {
         path: "product-page/:id",
         name: "ProductPage",
-        component: () => import("../views/user/Products.vue"),
+        component: () => import("../views/user/ProductPage.vue"),
+      },
+    ],
+  },
+  {
+    path: "/cart",
+    component: () => import("../layouts/Cart.vue"),
+    redirect: {
+      name: "",
+    },
+    children: [
+      {
+        path: "",
+        name: "Cart",
+        component: () => import("../views/user/Cart.vue"),
+      },
+      {
+        path: "category/:category/:id",
+        name: "Category",
+        component: () => import("../views/user/Category.vue"),
+      },
+      {
+        path: "product-page/:id",
+        name: "ProductPage",
+        component: () => import("../views/user/ProductPage.vue"),
       },
     ],
   },
   {
     path: "/admin",
-    name: "Admin",
+
     redirect: {
       name: "customersAdmin",
     },

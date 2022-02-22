@@ -43,8 +43,16 @@
           </v-list>
         </v-col>
         <v-col lg="3" class="d-flex justify-center align-center">
-          <v-btn class="weight mr-3" large outlined dark>
-            <v-icon dark left> mdi-cart </v-icon>CART (0)
+          <v-btn
+            @click="$router.push({ name: 'Cart' })"
+            class="weight mr-3"
+            large
+            outlined
+            dark
+          >
+            <v-icon dark left> mdi-cart </v-icon>CART ({{
+              Object.keys(getCart).length
+            }})
           </v-btn>
           <v-btn
             @click="dialog = true"
@@ -64,8 +72,10 @@
               @click.native="userProfileDialog = true"
               class="cursor-pointer"
             />
-            <v-dialog v-model="userProfileDialog" max-width="850">
-              <div class="pt-8 pb-12 white px-16 black--text">user setting</div>
+            <v-dialog v-model="userProfileDialog" max-width="900">
+              <div class="pt-8 pb-12 white px-10 black--text">
+                <settings />
+              </div>
             </v-dialog>
           </div>
 
@@ -101,10 +111,11 @@
 import Login from "./Login.vue";
 import Register from "./Register.vue";
 import { mapGetters } from "vuex";
+import Settings from "./Settings.vue";
 import Avatar from "./Avatar.vue";
 
 export default {
-  components: { Login, Register, Avatar },
+  components: { Login, Register, Avatar, Settings },
   data: () => ({
     dialog: false,
     userProfileDialog: false,
@@ -128,6 +139,7 @@ export default {
   }),
   computed: {
     ...mapGetters("auth", ["getSignedInStatus", "getUserData"]),
+    ...mapGetters("cart", ["getCart"]),
   },
   watch: {
     dialog(val) {
@@ -139,7 +151,6 @@ export default {
   methods: {
     async logoutUser() {
       const response = await this.$store.dispatch("auth/logout");
-      console.log(response);
       if (response.success === 1) {
         this.$root.vtoast.show({
           message: `Logged out successfully`,

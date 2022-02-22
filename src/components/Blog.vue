@@ -1,23 +1,25 @@
 <template>
   <main>
-    <v-row class="d-flex align-center">
-      <v-col cols="8">
-        <div class="blog-form" v-if="blog.image">
-          <img :src="blog.image" />
-        </div>
-        <div class="blog-form" v-else>
-          <img src="../assets/logo.svg" />
-        </div>
-      </v-col>
-      <v-col cols="4">
-        <h1 class="primary--text font-weight-light format-text leading">
-          {{ blog.title }}
-        </h1>
-        <router-link to="/" class="primary white--text carousel-text mt-3">
-          {{ blog.content | truncate("25", "...") }}
-        </router-link>
-      </v-col>
-    </v-row>
+    <v-container>
+      <v-row class="d-flex align-center">
+        <v-col cols="8">
+          <div class="blog-form" v-if="blog.image">
+            <img :src="blog.image" />
+          </div>
+          <div class="blog-form" v-else>
+            <img src="../assets/logo.svg" />
+          </div>
+        </v-col>
+        <v-col cols="4">
+          <h1 class="primary--text font-weight-light format-text leading">
+            {{ blog.title }}
+          </h1>
+          <router-link to="/" class="primary white--text carousel-text mt-3">
+            {{ blog.content | truncate("25", "...") }}
+          </router-link>
+        </v-col>
+      </v-row>
+    </v-container>
   </main>
 </template>
 
