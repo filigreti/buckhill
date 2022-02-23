@@ -62,7 +62,7 @@ const routes = [
     path: "/admin",
 
     redirect: {
-      name: "DashboardAdmin",
+      name: "ProductsAdmin",
     },
     component: () => import("../layouts/Admin.vue"),
     children: [
@@ -83,7 +83,7 @@ const routes = [
       },
       {
         path: "customers",
-        name: "customersAdmin",
+        name: "CustomersAdmin",
         component: () => import("../views/admin/Customers.vue"),
       },
       {

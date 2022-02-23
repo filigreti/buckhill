@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import global from "./modules/global";
 import auth from "./modules/auth";
 import cart from "./modules/cart";
+import admin from "./modules/admin";
 
 import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     global,
     auth,
     cart,
+    admin,
   },
   plugins: [
     createPersistedState({

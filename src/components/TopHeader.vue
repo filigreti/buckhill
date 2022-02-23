@@ -153,12 +153,12 @@ export default {
           message: `Logged out successfully`,
         });
       }
+      this.$router.push({ name: "Products" });
     },
     checkStatus() {
-      if (this.getUserData.firstname === "Admin") {
-        this.$router.push({});
-      }
-      this.userProfileDialog = true;
+      if (this.getUserData.first_name === "Admin") {
+        this.$router.push({ name: "DashboardAdmin" });
+      } else this.userProfileDialog = true;
     },
   },
   mounted() {},

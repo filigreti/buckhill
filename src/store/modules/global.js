@@ -129,7 +129,7 @@ const actions = {
           };
         })
       );
-      console.log(formatedResponse, "frame");
+
       commit("updateState", {
         type: "blogs",
         data: formatedResponse,
@@ -230,8 +230,6 @@ const actions = {
         };
       })
     );
-
-    console.log({ ...response, data: formatedResponse }, "ruggge");
 
     return { ...response, ...formatedResponse } || error;
   },

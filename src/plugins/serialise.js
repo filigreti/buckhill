@@ -43,7 +43,6 @@ export const serialize = ({ url, body, filters }) => {
     }
 
     const fullString = `${url}${startingString}${serializeBody}`;
-    console.log("fullString: ", fullString);
     return fullString;
   } else {
     throw Error("url is required || url is not a string");

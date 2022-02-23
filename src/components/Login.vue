@@ -112,7 +112,6 @@ export default {
 
         this.$emit("close");
       }
-      console.log(response, "validate");
     },
   },
 };

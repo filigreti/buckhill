@@ -4,23 +4,19 @@ import { serialize } from "../../plugins/serialise";
 
 const getDefaultState = () => {
   return {
-    isSignedOn: false,
-    userData: {},
+    customers: {},
+    globalFilters: {
+      page: 1,
+      limit: 10,
+      desc: false,
+    },
   };
 };
 
 const state = getDefaultState();
 
 const getters = {
-  getSignedInStatus: (state) => state.isSignedOn,
-  getUserData: (state) => state.userData,
-  getUserInitials: (state) => {
-    const fullName = state.userData.first_name + " " + state.userData.last_name;
-    return fullName
-      .split(" ")
-      .map((n) => n[0])
-      .join("");
-  },
+  getCustomers: (state) => state.customers,
 };
 
 const mutations = {
@@ -37,76 +33,19 @@ const mutations = {
 };
 
 const actions = {
-  async login({ commit, state, dispatch }, { email, password }) {
-    // const url = `/admin/login`;
-    const serializeUrl = serialize({ url });
-    const [response, error] = await handlePromise(
-      Api.post(serializeUrl, { email, password })
-    );
-
-    let userData;
-
-    if (response.status === 200) {
-      localStorage.setItem("token", response.data.data.token);
-      userData = await dispatch("getUserData");
-      response.data.data.userData = userData;
-    }
-
-    return response || error;
-  },
-  async register(
-    { commit, state, dispatch },
-    {
-      first_name,
-      last_name,
-      email,
-      password,
-      password_confirmation,
-      address,
-      phone_number,
-    }
-  ) {
-    const url = `/user/create`;
-    const serializeUrl = serialize({ url });
-    const [response, error] = await handlePromise(
-      Api.post(serializeUrl, {
-        first_name,
-        last_name,
-        email,
-        password,
-        password_confirmation,
-        address,
-        phone_number,
-      })
-    );
-
-    return response || error;
-  },
-
-  async getUserData({ commit }) {
-    const url = `/user`;
-    const serializeUrl = serialize({ url });
+  async getCustomerlists({ commit, state }) {
+    const url = `/admin/user-listing`;
+    const serializeUrl = serialize({
+      url,
+      filters: state.globalFilters,
+    });
     const [response, error] = await handlePromise(Api.get(serializeUrl, true));
     commit("updateAuthState", {
-      type: "userData",
-      data: response.data,
+      type: "customers",
+      data: response,
     });
-    commit("updateAuthState", {
-      type: "isSignedOn",
-      data: true,
-    });
+    console.log(response, "treses");
 
-    return response || error;
-  },
-
-  async logout({ commit }) {
-    const url = `/user/logout`;
-    const serializeUrl = serialize({ url });
-    const [response, error] = await handlePromise(Api.get(serializeUrl));
-    if (response.success === 1) {
-      localStorage.removeItem("token");
-      commit("resetState");
-    }
     return response || error;
   },
 };

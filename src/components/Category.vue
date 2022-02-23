@@ -77,9 +77,6 @@ export default {
         .slice(0, 2);
     },
   },
-  mounted() {
-    console.log(this.getBlogs, "zenemax");
-  },
 };
 </script>
 

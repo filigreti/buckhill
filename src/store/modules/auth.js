@@ -121,7 +121,6 @@ const actions = {
   },
 
   async logout({ commit, state }) {
-    console.log("hadmin", state.userData.first_name);
     let url;
     if (state.userData.first_name === "Admin") {
       url = `/admin/logout`;

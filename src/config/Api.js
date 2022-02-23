@@ -1,4 +1,19 @@
 import axios from "axios";
+import store from "../store";
+import router from "../router";
+
+axios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    if (error.response.status === 401) {
+      store.dispatch("auth/logout");
+      router.push("/products");
+    }
+    return Promise.reject(error);
+  }
+);
 
 let API_URL = "https://pet-shop.buckhill.com.hr/api/v1";
 
