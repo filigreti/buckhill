@@ -62,6 +62,12 @@
             </div>
           </v-expand-transition>
         </template>
+        <template v-slot:item.actions="{ item }">
+          <v-icon small class="mr-2" @click="editItem(item)">
+            mdi-pencil
+          </v-icon>
+          <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
+        </template>
       </v-data-table>
     </v-app>
   </main>
@@ -75,13 +81,14 @@ export default {
       {
         text: "Dessert (100g serving)",
         align: "start",
+        sortable: false,
         value: "name",
       },
       { text: "Calories", value: "calories" },
       { text: "Fat (g)", value: "fat" },
       { text: "Carbs (g)", value: "carbs" },
       { text: "Protein (g)", value: "protein" },
-      { text: "Iron (%)", value: "iron" },
+      { text: "", value: "actions", sortable: false },
     ],
     desserts: [
       {

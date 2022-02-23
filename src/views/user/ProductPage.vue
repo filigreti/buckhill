@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row class="d-flex mx-auto justify-center align-center black--text">
-      <v-col cols="12" lg="7">
+      <v-col cols="12" lg="10" xl="7">
         <v-breadcrumbs class="" :items="items" divider="/"></v-breadcrumbs>
         <div class="d-flex justify-space-around align-center page-cont">
           <img
@@ -187,15 +187,29 @@ export default {
 
 <style>
 .product-page-image {
-  width: 400px !important;
-  height: 600px !important;
+  width: 300px !important;
+  height: 300px !important;
   object-fit: contain;
+}
+.format-text {
+  font-size: 1.2rem;
+}
+
+@media (min-width: 1904px) {
+  .product-page-image {
+    width: 400px !important;
+    height: 600px !important;
+  }
+
+  .text-cont h1 {
+    font-size: 1.5rem !important;
+  }
 }
 .text-cont {
   width: 25rem;
 }
 .text-cont h1 {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 .page-cont {
   margin-top: 6rem;

@@ -41,7 +41,7 @@
           loop
           autoplay
         ></lottie-player>
-        <div class="black--text unavailable">Unavailable</div>
+        <div class="black--text unavailable">No Item</div>
       </div>
     </div>
   </main>
@@ -84,9 +84,7 @@ export default {
 .format-text::first-letter {
   text-transform: capitalize;
 }
-.format-text {
-  font-size: 2.2rem;
-}
+
 .inline {
   display: inline-block;
   text-decoration: none;

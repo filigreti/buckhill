@@ -17,7 +17,8 @@
       <v-col
         v-if="getPromotionsData.length"
         cols="12"
-        lg="7"
+        lg="8"
+        xl="7"
         sm="5"
         class="mt-2"
       >
@@ -26,7 +27,8 @@
       <v-col
         v-if="Object.keys(getCategories).length"
         cols="12"
-        lg="7"
+        lg="8"
+        xl="6"
         sm="5"
         class="mt-5"
       >

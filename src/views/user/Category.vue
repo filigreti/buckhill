@@ -17,7 +17,7 @@
     </v-col>
     <v-container v-if="products.length">
       <v-row class="d-flex mx-auto justify-center align-center">
-        <v-col cols="12" lg="7">
+        <v-col cols="12" lg="10" xl="7">
           <div class="px-12">
             <div class="px-5">
               <h1 class="primary--text font-weight-light format-text">
@@ -44,7 +44,7 @@
             </div>
             <v-row class="mt-4">
               <v-col
-                lg="6"
+                lg="4"
                 xl="4"
                 md="4"
                 v-for="(product, index) in products"
@@ -69,7 +69,7 @@
           loop
           autoplay
         ></lottie-player>
-        <div class="black--text unavailable">Unavailable</div>
+        <div class="black--text unavailable">No Item</div>
       </div>
     </div>
   </div>
@@ -176,12 +176,20 @@ export default {
 }
 .offset {
   position: fixed !important;
-  left: 15rem;
+  left: 5rem;
   width: 17rem;
-  height: 60vh;
+  height: 40vh;
   overflow: auto;
   top: 21rem;
 }
+
+@media (min-width: 1904px) {
+  .offset {
+    left: 12rem;
+    height: 60vh;
+  }
+}
+
 .v-breadcrumbs {
   padding: 0 !important;
 }
