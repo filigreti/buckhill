@@ -68,7 +68,7 @@ export default {
       password: "",
       passwordRules: [
         (value) => !!value || "Please type password.",
-        (value) => (value && value.length >= 6) || "minimum 6 characters",
+        (value) => (value && value.length >= 5) || "minimum 5 characters",
       ],
     };
   },
@@ -95,9 +95,20 @@ export default {
         }
       }
       if (response.data.success === 1) {
-        this.$root.vtoast.show({
-          message: `Welcome Back, ${response.data.data.userData.data.first_name}`,
-        });
+        if (
+          response.data &&
+          response.data.data &&
+          response.data.data.userData &&
+          response.data.data.userData.data.first_name
+        ) {
+          this.$root.vtoast.show({
+            message: `Welcome Back, ${response.data.data.userData.data.first_name}`,
+          });
+        } else {
+          this.$root.vtoast.show({
+            message: `Welcome Admin`,
+          });
+        }
 
         this.$emit("close");
       }

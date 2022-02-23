@@ -68,10 +68,7 @@
             <v-btn @click="logoutUser" class="weight mr-5" large outlined dark>
               Logout
             </v-btn>
-            <avatar
-              @click.native="userProfileDialog = true"
-              class="cursor-pointer"
-            />
+            <avatar @click.native="checkStatus" class="cursor-pointer" />
             <v-dialog v-model="userProfileDialog" max-width="900">
               <div class="pt-8 pb-12 white px-10 black--text">
                 <settings />
@@ -156,6 +153,12 @@ export default {
           message: `Logged out successfully`,
         });
       }
+    },
+    checkStatus() {
+      if (this.getUserData.firstname === "Admin") {
+        this.$router.push({});
+      }
+      this.userProfileDialog = true;
     },
   },
   mounted() {},

@@ -38,39 +38,18 @@ const mutations = {
 
 const actions = {
   async login({ commit, state, dispatch }, { email, password }) {
-    let url;
-
-    if (email.includes("admin@")) {
-      url = `/admin/login`;
-    } else {
-      url = `/user/login`;
-    }
+    // const url = `/admin/login`;
     const serializeUrl = serialize({ url });
     const [response, error] = await handlePromise(
       Api.post(serializeUrl, { email, password })
     );
-    if (url === `/user/login`) {
-      let userData;
-      if (response.status === 200) {
-        localStorage.setItem("token", response.data.data.token);
-        userData = await dispatch("getUserData");
-        response.data.data.userData = userData;
-      }
-    } else {
-      if (response.status === 200) {
-        localStorage.setItem("token", response.data.data.token);
-        commit("updateAuthState", {
-          type: "userData",
-          data: {
-            first_name: "Admin",
-            last_name: "Admin",
-          },
-        });
-        commit("updateAuthState", {
-          type: "isSignedOn",
-          data: true,
-        });
-      }
+
+    let userData;
+
+    if (response.status === 200) {
+      localStorage.setItem("token", response.data.data.token);
+      userData = await dispatch("getUserData");
+      response.data.data.userData = userData;
     }
 
     return response || error;
@@ -120,14 +99,8 @@ const actions = {
     return response || error;
   },
 
-  async logout({ commit, state }) {
-    console.log("hadmin", state.userData.first_name);
-    let url;
-    if (state.userData.first_name === "Admin") {
-      url = `/admin/logout`;
-    } else {
-      url = `/user/logout`;
-    }
+  async logout({ commit }) {
+    const url = `/user/logout`;
     const serializeUrl = serialize({ url });
     const [response, error] = await handlePromise(Api.get(serializeUrl));
     if (response.success === 1) {
