@@ -68,6 +68,10 @@ export default {
   border: 1px solid #c9c5c5 !important;
 }
 
+.input-size .v-input__control .v-input__slot .v-input__append-inner i {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
 .input-size input::placeholder {
   color: #7b7a7a !important;
 }

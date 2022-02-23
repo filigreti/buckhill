@@ -27,7 +27,16 @@
     </v-navigation-drawer>
 
     <div class="content-nav dim">
-      <router-view />
+      <div class="content-top-nav">
+        {{ formatRouteName($route.name) }}
+      </div>
+      <div>
+        <div class="d-flex align-center top-level">
+          <div class="sub-link">Dashboard</div>
+          <span class="ml-2 link">/</span>
+        </div>
+      </div>
+      <router-view class="mt-5" />
     </div>
   </v-app>
 </template>
@@ -63,6 +72,14 @@ export default {
   computed: {
     ...mapGetters("auth", ["getUserData"]),
   },
+  methods: {
+    formatRouteName(value) {
+      return value
+        .replace("Admin", "")
+        .replace(/([A-Z]+)/g, " $1")
+        .replace(/([A-Z][a-z])/g, " $1");
+    },
+  },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
       if (vm.getUserData.first_name === "Admin") {
@@ -83,9 +100,8 @@ export default {
   position: absolute;
   left: 256px;
   height: calc(100vh - 64px);
-  width: 100%;
-  /* overflow: auto; */
-  padding: 2rem;
+  width: calc(100% - 256px);
+  padding: 2rem 2rem 4rem 2rem;
 }
 .admin-active {
   background: #2db479;
@@ -108,5 +124,20 @@ export default {
 .v-application--is-ltr .v-list-item__action:first-child,
 .v-application--is-ltr .v-list-item__icon:first-child {
   margin-right: 20px;
+}
+.content-top-nav {
+  font-weight: 500;
+  font-size: 1.3rem;
+}
+.sub-link {
+  color: #2196f3;
+  font-size: 0.8rem;
+}
+.link {
+  opacity: 0.7;
+}
+.top-level {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 1.2rem;
 }
 </style>

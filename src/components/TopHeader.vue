@@ -157,7 +157,7 @@ export default {
     },
     checkStatus() {
       if (this.getUserData.first_name === "Admin") {
-        this.$router.push({ name: "DashboardAdmin" });
+        this.$router.push({ name: "ProductsAdmin" });
       } else this.userProfileDialog = true;
     },
   },
