@@ -10,11 +10,17 @@ export default {
       img: "",
     };
   },
-  async created() {
-    const response = await this.$store.dispatch("global/urlToBase64", {
-      id: this.image,
-    });
-    this.img = response;
+  watch: {
+    image: {
+      immediate: true,
+      async handler(val) {
+        const response = await this.$store.dispatch("global/urlToBase64", {
+          id: this.image,
+        });
+        this.img = response;
+        this.$forceUpdate();
+      },
+    },
   },
 };
 </script>

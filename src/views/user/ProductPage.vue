@@ -204,6 +204,9 @@ export default {
   .text-cont h1 {
     font-size: 1.5rem !important;
   }
+  .format-text {
+    font-size: 2.2rem;
+  }
 }
 .text-cont {
   width: 25rem;

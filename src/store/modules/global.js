@@ -65,28 +65,29 @@ const actions = {
   async getProducts({ commit, state }, payload) {
     commit("setLoading", true);
     const url = `/products`;
+    console.log(payload, "lissis");
     const serializeUrl = serialize({
       url,
-      filters: state.globalFilters,
+      body: payload.params,
+      filters: payload.filters,
     });
     const [response, error] = await handlePromise(
       Api.get(serializeUrl, payload)
     );
 
-    if (response) {
-      commit("updateState", {
-        type: "products",
-        data: response,
-        //infinite scrolling logic
-        // data: {
-        //   ...response,
-        //   data: Object.keys(state.products).length
-        //     ? [...state.products.data, ...response.data]
-        //     : [...response.data],
-        // },
-      });
-    }
-    commit("setLoading", false);
+    // if (response) {
+    //   commit("updateState", {
+    //     type: "products",
+    //     //infinite scrolling logic
+    //     // data: {
+    //     //   ...response,
+    //     //   data: Object.keys(state.products).length
+    //     //     ? [...state.products.data, ...response.data]
+    //     //     : [...response.data],
+    //     // },
+    //   });
+    // }
+
     return response || error;
   },
 

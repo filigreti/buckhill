@@ -36,7 +36,7 @@
           <span class="ml-2 link">/</span>
         </div>
       </div>
-      <router-view class="mt-5" />
+      <router-view class="mt-5 pb-7" />
     </div>
   </v-app>
 </template>
